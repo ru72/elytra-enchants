@@ -20,9 +20,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntity.class)
 public abstract class InjectPlayerEntity extends LivingEntity
 {
-	@Shadow
-	public abstract ItemStack getEquippedStack(EquipmentSlot slot);
-
 	protected InjectPlayerEntity(EntityType<? extends LivingEntity> entityType, World world)
 	{
 		super(entityType, world);
@@ -33,12 +30,10 @@ public abstract class InjectPlayerEntity extends LivingEntity
 		at = @At("HEAD"))
 	private void elytraBoost(CallbackInfo info)
 	{
-		ItemStack stack = getEquippedStack(EquipmentSlot.CHEST);
+		int level = Main.getElytraEnchantmentLevel(this, Main.LAUNCH_ENCHANTMENT);
 
-		if (stack.getItem() == Items.ELYTRA &&
-			EnchantmentHelper.getLevel(Main.LAUNCH_ENCHANTMENT, stack) > 0)
+		if (level > 0)
 		{
-			float level = EnchantmentHelper.getLevel(Main.LAUNCH_ENCHANTMENT, stack);
 			Vec3d vec = getRotationVector().multiply(level * 0.1f);
 			addVelocity(vec.x, vec.y + 0.25f, vec.z);
 		}

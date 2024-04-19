@@ -23,13 +23,6 @@ public abstract class RedirectLivingEntity extends Entity
 		super(type, world);
 	}
 
-	private static boolean hasSkippingEnchant(LivingEntity entity)
-	{
-		ItemStack stack = entity.getEquippedStack(EquipmentSlot.CHEST);
-
-		return stack.getItem() == Items.ELYTRA && EnchantmentHelper.getLevel(Main.SKIPPING_ENCHANTMENT, stack) > 0;
-	}
-
 	@Redirect(
 		method = "travel",
 		at = @At(
@@ -38,7 +31,7 @@ public abstract class RedirectLivingEntity extends Entity
 		))
 	public void cancelElytraCancel(LivingEntity entity, int index, boolean value)
 	{
-		if (!hasSkippingEnchant(entity))
+		if (Main.getElytraEnchantmentLevel(entity, Main.SKIPPING_ENCHANTMENT) == 0)
 		{
 			setFlag(index, value);
 		}
@@ -52,7 +45,7 @@ public abstract class RedirectLivingEntity extends Entity
 		))
 	public void initAi(LivingEntity entity, int index, boolean value)
 	{
-		if (!hasSkippingEnchant(entity))
+		if (Main.getElytraEnchantmentLevel(entity, Main.SKIPPING_ENCHANTMENT) == 0)
 		{
 			setFlag(index, value);
 		}
