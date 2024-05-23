@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.6-SNAPSHOT'
 	id 'maven-publish'
+	id "me.modmuss50.mod-publish-plugin" version "0.5.1"
 }
 
 version = project.mod_version
@@ -80,5 +81,26 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+	}
+}
+
+publishMods {
+	File changelogFile = new File("CHANGELOG.md")
+
+	file = remapJar.archiveFile
+	changelog = changelogFile.exists() ? changelogFile.text : ""
+	type = STABLE
+	displayName = "${project.mod_name} ${project.mod_version}"
+	modLoaders.add("fabric")
+
+	modrinth {
+		accessToken = providers.gradleProperty("modrinth_token").get()
+		projectId = "kjeo1Vlk"
+		minecraftVersionRange {
+			start = "1.20"
+			end = "1.20.4"
+		}
+		requires("fabric-api")
+		optional("trinkets")
 	}
 }

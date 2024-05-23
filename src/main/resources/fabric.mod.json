@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
 	"id": "elytra_enchants",
-	"version": "1.0.1",
-	"name": "Chai's Elytra Enchants",
+	"version": "${version}",
+	"name": "${name}",
 	"description": "Adds two new treasure enchantments for the elytra, skipping and launch!",
 	"authors": [
 		"Chai"
