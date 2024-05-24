@@ -4,10 +4,13 @@ import com.chailotl.elytra_enchants.Main;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 public abstract class RedirectLivingEntity extends Entity
@@ -47,10 +50,17 @@ public abstract class RedirectLivingEntity extends Entity
 		}
 		else if (entity.getVelocity().y == 0)
 		{
-			++ticksOnGround;
-			if (ticksOnGround >= 3) { setFlag(7, value); }
+			if (++ticksOnGround >= 4) { setFlag(7, value); Main.LOGGER.info("   4"); }
 		}
-		else
+	}
+
+	@Inject(
+		method = "tick",
+		at = @At("TAIL")
+	)
+	public void resetTicksOnGround(CallbackInfo ci)
+	{
+		if (getVelocity().y != 0)
 		{
 			ticksOnGround = 0;
 		}
