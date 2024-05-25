@@ -50,7 +50,7 @@ public abstract class RedirectLivingEntity extends Entity
 		}
 		else if (entity.getVelocity().y == 0)
 		{
-			if (++ticksOnGround >= 4) { setFlag(7, value); Main.LOGGER.info("   4"); }
+			if (++ticksOnGround >= 4) { setFlag(7, value); }
 		}
 	}
 
