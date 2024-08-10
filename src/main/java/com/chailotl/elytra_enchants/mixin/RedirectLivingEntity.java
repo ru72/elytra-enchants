@@ -1,10 +1,11 @@
 package com.chailotl.elytra_enchants.mixin;
 
 import com.chailotl.elytra_enchants.Main;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +31,7 @@ public abstract class RedirectLivingEntity extends Entity
 		))
 	public void cancelElytraCancel(LivingEntity entity, int index, boolean value)
 	{
-		if (Main.getElytraEnchantmentLevel(entity, Main.SKIPPING_ENCHANTMENT) == 0)
+		if (!Main.isElytraBounceOffFloor((LivingEntity)(Object)this))
 		{
 			setFlag(index, value);
 		}
@@ -44,7 +45,7 @@ public abstract class RedirectLivingEntity extends Entity
 		))
 	public void initAi(LivingEntity entity, int index, boolean value)
 	{
-		if (Main.getElytraEnchantmentLevel(entity, Main.SKIPPING_ENCHANTMENT) == 0)
+		if (!Main.isElytraBounceOffFloor((LivingEntity)(Object)this))
 		{
 			setFlag(index, value);
 		}

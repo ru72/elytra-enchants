@@ -24,11 +24,11 @@ public abstract class InjectPlayerEntity extends LivingEntity
 		at = @At("HEAD"))
 	private void elytraBoost(CallbackInfo info)
 	{
-		int level = Main.getElytraEnchantmentLevel(this, Main.LAUNCH_ENCHANTMENT);
+		float strength = Main.getElytraLaunchStrength(this);
 
-		if (level > 0)
+		if (strength > 0)
 		{
-			Vec3d vec = getRotationVector().multiply(level * 0.1f);
+			Vec3d vec = getRotationVector().multiply(strength);
 			addVelocity(vec.x, vec.y + 0.25f, vec.z);
 		}
 	}
